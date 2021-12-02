@@ -1,11 +1,13 @@
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
-import 'package:demo_localisation/constant/app_colors.dart';
-import 'package:demo_localisation/constant/strings.dart';
-import 'package:demo_localisation/utility/utils.dart';
+import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import 'package:demo_localisation/constant/strings.dart';
+import 'package:demo_localisation/utility/utils.dart';
+
 class InputFieldWidget extends StatefulWidget {
+  BuildContext parentContext;
   TextEditingController? controller;
   String? hintText;
   String? labelText;
@@ -16,6 +18,7 @@ class InputFieldWidget extends StatefulWidget {
   bool pwdObsureText;
   InputFieldWidget({
     Key? key,
+    required this.parentContext,
     this.controller,
     this.hintText,
     this.labelText,
@@ -34,11 +37,9 @@ class _InputFieldWidgetState extends State<InputFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      obscureText: widget.isPassword ? widget.pwdObsureText : widget.isPassword ,
-      cursorColor: AppColors.primaryColor,
+      obscureText: widget.isPassword ? widget.pwdObsureText : widget.isPassword,
       controller: widget.controller,
       style: const TextStyle(
-          color: Colors.black,
           fontSize: 15,
           fontWeight: FontWeight.w500,
           fontFamily: Strings.robotoRegular),
@@ -53,10 +54,27 @@ class _InputFieldWidgetState extends State<InputFieldWidget> {
         }
       },
       decoration: InputDecoration(
+        focusedErrorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(),
+        ),
+        filled: false,
+        disabledBorder: InputBorder.none,
+        errorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(),
+        ),
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(),
+        ),
         focusedBorder: const UnderlineInputBorder(
-            borderSide: BorderSide(color: AppColors.primaryColor)),
+          borderSide: BorderSide(),
+        ),
         hintText: widget.hintText,
+        hintStyle: const TextStyle(),
         labelText: widget.labelText,
+        labelStyle: TextStyle(
+          color: Theme.of(widget.parentContext).textTheme.bodyText1!.color,
+        ),
+        border: const UnderlineInputBorder(borderSide: BorderSide()),
         suffixIcon: widget.isShowPwdToggleText
             ? GestureDetector(
                 onTap: () {
@@ -64,47 +82,14 @@ class _InputFieldWidgetState extends State<InputFieldWidget> {
                     widget.pwdObsureText = !widget.pwdObsureText;
                   });
                 },
-                child: Icon(widget.pwdObsureText
-                    ? Icons.visibility_off
-                    : Icons.visibility),
+                child: Icon(
+                  widget.pwdObsureText
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                ),
               )
             : Container().wh(0, 0),
       ),
     );
   }
-}
-
-Widget inputFieldWidget(
-    {required TextEditingController? controller,
-    String? hinttext,
-    String? labeltext,
-    String? errortext,
-    bool ispassword = false,
-    bool emailvalidation = false}) {
-  return TextFormField(
-    obscureText: ispassword,
-    cursorColor: AppColors.primaryColor,
-    controller: controller,
-    style: const TextStyle(
-        color: Colors.black,
-        fontSize: 15,
-        fontWeight: FontWeight.w500,
-        fontFamily: Strings.robotoRegular),
-    validator: (value) {
-      bool emailValid = emailValidation(value!);
-      if (value.toString().isEmpty) {
-        return errortext;
-      } else if (emailvalidation && !emailValid) {
-        return "Please enter valid email";
-      } else {
-        return null;
-      }
-    },
-    decoration: InputDecoration(
-      focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(color: AppColors.primaryColor)),
-      hintText: hinttext,
-      labelText: labeltext,
-    ),
-  );
 }

@@ -2,15 +2,8 @@ import 'dart:async';
 
 import 'package:demo_localisation/constant/app_assets.dart';
 import 'package:demo_localisation/constant/constant.dart';
-import 'package:demo_localisation/provider/demo_provider.dart';
-import 'package:demo_localisation/ui/dashboard/dashboard_screen.dart';
-import 'package:demo_localisation/ui/login/login_screen.dart';
-import 'package:demo_localisation/utility/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:demo_localisation/pref/shared_pref.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'dart:ui' as ui;
 
@@ -37,8 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
           Locale locale = Locale(value);
           updateLanguage(locale, context);
         }
-
-        Utils.redirectToNextScreen(context, const LoginScreen());
       });
     });
   }

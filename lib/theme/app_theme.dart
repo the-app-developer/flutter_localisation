@@ -4,21 +4,75 @@ import 'package:flutter/material.dart';
 
 class MyTheme {
   static ThemeData lightTheme(BuildContext context) => ThemeData(
-        primarySwatch: Colors.red,
-        colorScheme:  ThemeData().colorScheme.copyWith(primary: AppColors.primaryColor),
+        // primarySwatch: Colors.red,
+        brightness: Brightness.light,
+        // colorScheme: ThemeData().colorScheme.copyWith(
+        //     primary: AppColors.primaryColor, brightness: Brightness.light),
         fontFamily: Strings.robotoRegular,
-        // fontFamily: GoogleFonts.poppins().fontFamily,
-        primaryColor: AppColors.primaryColor,
-        appBarTheme: const AppBarTheme(
-          color: AppColors.primaryColor,
-          elevation: 0,
-          iconTheme: IconThemeData(color: AppColors.primaryColor),
+        primaryColor: AppColors.lightblueColor,
+        textTheme: const TextTheme(
+          headline1: TextStyle(color: AppColors.primaryColor),
+          headline2: TextStyle(color: AppColors.lightblueColor),
         ),
-        // textTheme: Theme.of(context).textTheme,
+        cardColor: AppColors.lightCardColor,
+        textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: AppColors.black, selectionColor: AppColors.black),
+        appBarTheme: const AppBarTheme(
+          color: AppColors.lightblueColor,
+          elevation: 0,
+          iconTheme: IconThemeData(color: AppColors.white),
+        ),
+        iconTheme: const IconThemeData(color: AppColors.black),
+        hintColor: AppColors.alphablack,
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                elevation: 5,
+                primary: AppColors.lightblueColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ))),
       );
 
   static ThemeData darkTheme(BuildContext context) => ThemeData(
-      brightness: Brightness.dark,
-      appBarTheme: const AppBarTheme(
-          color: Colors.black, iconTheme: IconThemeData(color: Colors.white)));
+        // primarySwatch: Colors.red,
+        brightness: Brightness.dark,
+        // colorScheme: ThemeData().colorScheme.copyWith(
+        //     primary: AppColors.primaryColor, brightness: Brightness.light),
+        fontFamily: Strings.robotoRegular,
+        primaryColor: AppColors.white,
+        textTheme: const TextTheme(
+          headline1: TextStyle(
+            color: AppColors.darkTitleColor,
+          ),
+          headline2: TextStyle(
+            color: AppColors.darkTitleColor,
+          ),
+        ),
+        cardColor: AppColors.darkCardColor,
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: AppColors.white,
+          selectionColor: AppColors.white,
+        ),
+
+        appBarTheme: const AppBarTheme(
+          color: AppColors.primaryColor,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: AppColors.white,
+          ),
+        ),
+        hintColor: AppColors.alphaWhite,
+        iconTheme: const IconThemeData(
+          color: AppColors.white,
+        ),
+
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+                elevation: 5,
+                primary: AppColors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ))),
+      );
 }

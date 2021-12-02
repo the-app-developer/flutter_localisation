@@ -2,7 +2,6 @@ import 'package:demo_localisation/pref/shared_pref.dart';
 import 'package:demo_localisation/provider/demo_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class Constant {

@@ -10,7 +10,7 @@ import 'package:demo_localisation/utility/utils.dart';
 
 class LanguageSelector extends StatefulWidget {
   final BuildContext mainContext;
-  LanguageSelector({
+  const LanguageSelector({
     Key? key,
     required this.mainContext,
   }) : super(key: key);
@@ -27,7 +27,8 @@ class _LanguageSelectorState extends State<LanguageSelector> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color:
+            isDarkMode(context) ? Theme.of(context).cardColor : AppColors.white,
         borderRadius: const BorderRadius.all(Radius.circular(5)),
         boxShadow: [
           BoxShadow(
@@ -44,12 +45,14 @@ class _LanguageSelectorState extends State<LanguageSelector> {
           value: dropdownValue,
           icon: Image.asset(
             AppAssets.downArrowIcon,
+            color: Theme.of(context).iconTheme.color,
           ),
-          style: const TextStyle(
-              fontFamily: Strings.robotoBold,
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-              color: AppColors.primaryColor),
+          style: TextStyle(
+            fontFamily: Strings.robotoBold,
+            fontWeight: FontWeight.w700,
+            fontSize: 16,
+            color: Theme.of(context).iconTheme.color,
+          ),
           iconSize: 42,
           underline: SizedBox(),
           onChanged: (value) {

@@ -1,17 +1,22 @@
-import 'package:demo_localisation/constant/app_colors.dart';
+import 'package:demo_localisation/ui/common/widget/background_widget.dart';
+import 'package:demo_localisation/ui/common/widget/button_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:velocity_x/velocity_x.dart';
+
 import 'package:demo_localisation/constant/strings.dart';
-import 'package:demo_localisation/provider/demo_provider.dart';
-import 'package:demo_localisation/theme/app_theme.dart';
+import 'package:demo_localisation/shared/controllers/theme_controller.dart';
+import 'package:demo_localisation/shared/widgets/universal/page_body.dart';
 import 'package:demo_localisation/ui/common/input_field.dart';
 import 'package:demo_localisation/ui/login/login_screen.dart';
 import 'package:demo_localisation/utility/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  ThemeController controller;
+  SignupScreen({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   _SignupScreenState createState() => _SignupScreenState();
@@ -29,22 +34,15 @@ class _SignupScreenState extends State<SignupScreen> {
   bool obscureTextConfirmpPwd = true;
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      locale: Provider.of<DemoProvider>(context).locale,
-      home: Scaffold(
+    return PageBody(
+      child: Scaffold(
         key: scaffoldKey,
-        body: SafeArea(
-          child: Container(
-            child: Stack(
-              children: [
-                Image.asset(
-                  "assets/images/bg_img.png",
-                  fit: BoxFit.cover,
-                ).wh(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height),
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+        body: Container(
+          child: Stack(
+            children: [
+              backgroundWidget(context),
+              SafeArea(
+                child: Container(
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -58,9 +56,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             .text
                             .xl3
                             .textStyle(const TextStyle(
-                                fontFamily: Strings.robotoBold,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primaryColor))
+                              fontFamily: Strings.robotoBold,
+                              fontWeight: FontWeight.w700,
+                            ))
                             .make(),
                         Padding(
                           padding: const EdgeInsets.all(20.0),
@@ -68,7 +66,6 @@ class _SignupScreenState extends State<SignupScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5.0),
                             ),
-                            color: Colors.white,
                             elevation: 10,
                             child: Form(
                               key: formKey,
@@ -80,6 +77,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 5,
                                     ),
                                     InputFieldWidget(
+                                      parentContext: context,
                                       controller: usernameController,
                                       hintText: AppLocalizations.of(context)!
                                           .username,
@@ -94,6 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 10,
                                     ),
                                     InputFieldWidget(
+                                      parentContext: context,
                                       controller: restaurantNameController,
                                       hintText: AppLocalizations.of(context)!
                                           .resturantname,
@@ -108,6 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 10,
                                     ),
                                     InputFieldWidget(
+                                      parentContext: context,
                                       controller: restaurantUserNameController,
                                       hintText: AppLocalizations.of(context)!
                                           .resturantusername,
@@ -125,13 +125,13 @@ class _SignupScreenState extends State<SignupScreen> {
                                         .usernameshopuldbe
                                         .text
                                         .sm
-                                        .color(AppColors.lightgrayColor)
                                         .make()
                                         .centered(),
                                     const SizedBox(
                                       height: 10,
                                     ),
                                     InputFieldWidget(
+                                      parentContext: context,
                                       controller: passwordController,
                                       hintText: AppLocalizations.of(context)!
                                           .password,
@@ -148,6 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                       height: 10,
                                     ),
                                     InputFieldWidget(
+                                      parentContext: context,
                                       controller: confirmPasswordController,
                                       hintText: AppLocalizations.of(context)!
                                           .confirmpassword,
@@ -169,7 +170,16 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ),
                         ),
-                        signinButtonWidget().p(20),
+                        elevatButtonWidget(
+                                context: context,
+                                callback: () {
+                                  if (formKey.currentState!.validate()) {
+                                    formKey.currentState!.save();
+                                  }
+                                },
+                                buttonTitle:
+                                    AppLocalizations.of(context)!.signup)
+                            .p20(),
                         didnthaveAccountWidget(),
                         const SizedBox(
                           height: 30,
@@ -178,65 +188,49 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget signinButtonWidget() {
-    return ElevatedButton(
-        style: ElevatedButton.styleFrom(
-            elevation: 5,
-            primary: AppColors.lightblueColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-            )),
-        onPressed: () {
-          if (formKey.currentState!.validate()) {
-            formKey.currentState!.save();
-          }
-        },
-        child: Container(
-          child: AppLocalizations.of(context)!
-              .signup
-              .text
-              .textStyle(const TextStyle(
-                  fontSize: 16,
-                  fontFamily: Strings.robotoRegular,
-                  fontWeight: FontWeight.w500))
-              .make(),
-        )).wh(
-      MediaQuery.of(context).size.width,
-      50,
-    );
-  }
-
   Widget didnthaveAccountWidget() {
     return InkWell(
       onTap: () {
-        Utils.redirectToNextScreen(context, const LoginScreen());
+        Utils.redirectToNextScreen(
+            context,
+            LoginScreen(
+              controller: widget.controller,
+            ));
       },
-      child: RichText(
-        text: TextSpan(
-          text: AppLocalizations.of(context)!.alreadyhaveaccount,
-          style: const TextStyle(
-              fontFamily: Strings.robotoRegular,
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: AppColors.lightgrayColor),
-          children: <TextSpan>[
-            TextSpan(
-                text: " ${AppLocalizations.of(context)!.signin}",
-                style: const TextStyle(
-                    fontFamily: Strings.robotoBold,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                    color: AppColors.lightblueColor)),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          AppLocalizations.of(context)!
+              .alreadyhaveaccount
+              .text
+              .textStyle(const TextStyle(
+                fontFamily: Strings.robotoRegular,
+                fontWeight: FontWeight.w400,
+                fontSize: 16,
+              ))
+              .make(),
+          const SizedBox(
+            width: 5,
+          ),
+          AppLocalizations.of(context)!
+              .signin
+              .text
+              .textStyle(const TextStyle(
+                fontFamily: Strings.robotoBold,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+              ))
+              .make(),
+        ],
       ),
     );
   }

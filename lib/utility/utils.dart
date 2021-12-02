@@ -8,8 +8,7 @@ import 'package:demo_localisation/pref/shared_pref.dart';
 class Utils {
   static void redirectToNextScreen(BuildContext context, Widget routeWidget) {
     Navigator.of(context).pushAndRemoveUntil(
-        PageTransition(
-            child: routeWidget, type: PageTransitionType.rightToLeft),
+        PageTransition(child: routeWidget, type: PageTransitionType.fade),
         (route) => false);
   }
 
@@ -17,7 +16,7 @@ class Utils {
     Navigator.push(
       context,
       PageTransition(
-        type: PageTransitionType.rightToLeft,
+        type: PageTransitionType.fade,
         child: routeWidget,
       ),
     );
@@ -53,7 +52,7 @@ class Utils {
     } else if (value == "Hindi") {
       return "hi";
     }
-    return "";
+    return "en";
   }
 
   static List<String> getLangList() {
@@ -66,4 +65,10 @@ bool emailValidation(String s) {
   return RegExp(
           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
       .hasMatch(s.toString());
+}
+
+bool isDarkMode(BuildContext context) {
+  var brightness = Theme.of(context).brightness;
+  bool darkModeOn = brightness == Brightness.dark;
+  return darkModeOn;
 }
